@@ -1,5 +1,6 @@
 <template>
     <div class="layout-container">
+        <!--layout的子路由出口-->
         <router-view></router-view>
         <!--底部导航栏-->
         <van-tabbar v-model="active" route>

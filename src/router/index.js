@@ -9,10 +9,10 @@ const routes = [
     path:'/login',
     name:'login',
     component:()=>import('@/views/login')
-  },{
+  },{//一级路由渲染到根组件中的router-view中
      path:'/',
     component:()=>import('@/views/layout'),
-    children:[
+    children:[//子路由渲染到父路由的router-view中
       {
         path:'',     //默认子路由
         name:'home',
