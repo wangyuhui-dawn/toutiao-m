@@ -102,9 +102,11 @@
                 * */
                 try{
                     const {data}=await login(this.user)
-                    console.log(res);
+                    console.log(data);
                     Toast.success('登录成功')
                     this.$store.commit('setUser',data.data)
+                    /*登录成功，跳转回原来页面*/
+                    this.$router.back();
                 }catch (e) {
                     console.log(e);
                     console.log('登录失败',e);
