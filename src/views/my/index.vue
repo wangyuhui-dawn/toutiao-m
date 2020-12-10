@@ -69,7 +69,7 @@
 
 <script>
     import {mapState} from 'vuex'
- /*   import {getUserInfo} from "@/api/user"*/
+    /*import {getUserInfo} from "@/api/user"*/
     export default {
         name: "MyIndex",
         data(){
@@ -85,7 +85,7 @@
             }
         },
         mounted(){
-           /* this.loadCurrentUser()*/
+            // this.loadCurrentUser()
         },
         computed:{
             ...mapState(['user'])
@@ -106,8 +106,8 @@
                     .catch(() => {
                         // on cancel
                     });
-            },
-          /*  async loadCurrentUser(){
+            }
+           /* async loadCurrentUser(){
                 const res=await getUserInfo();
                 console.log(res);
             }*/

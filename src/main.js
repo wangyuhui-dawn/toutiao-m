@@ -9,6 +9,7 @@ import 'vant/lib/index.css'
 import './styles/index.less'
 /*自动设置rem基准值(html标签字体大小)*/
 import 'amfe-flexible'
+import '@/utils/dayjs'
 /*商品提示*/
 Vue.config.productionTip = false
 /*全局注册Vant中的组件*/
