@@ -88,7 +88,7 @@
 
 <style scoped lang="less">
 .article-list{
-  position:fixed;
+    position:fixed;
     left: 0px;
     right: 0px;
     bottom: 56px;

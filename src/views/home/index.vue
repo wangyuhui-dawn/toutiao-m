@@ -8,35 +8,79 @@
     <van-tabs v-model="active" class="channel-tabs">
         <!--tabs 组件 只有你第一次查看标签页的时候 才会渲染里面的内容  标签内容懒渲染-->
         <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id" class="tab-item">
+
             <!--文章列表-->
-            <article-list :channel="channel"></article-list>
+            <article-list
+                    :channel="channel"></article-list>
         </van-tab>
+        <div slot="nav-right" class="wap-nav-wrap" @click="isChannelEditShow=true">
+            <van-icon name="wap-nav" />
+        </div>
     </van-tabs>
+    <van-popup  :style="{height: '100%'}" v-model="isChannelEditShow" position="bottom"   closeable close-icon-position="top-left" get-container="body">
+        <!--模板中的$event表示事件参数-->
+         <channel-edit
+                 :user-channels="channels"
+                 @closePopup="isChannelEditShow=false"
+                 @update-active="onUpdateActive"
+                 :active="active"></channel-edit>
+    </van-popup>
 </div>
 </template>
 
 <script>
     import {getUserChannel} from "@/api/user";
     import ArticleList from './components/article-list'
+    import ChannelEdit from './components/channel-edit'
+    import {mapState} from 'vuex'
+    import {getItem} from "@/utils/storage";
     export default {
         name: "HomeIndex",
         data(){
             return {
                 active:0,//控制被激活的标签
-                channels:[]
+                channels:[],
+                isChannelEditShow:true
             }
         },
         components:{
-            ArticleList
+            ArticleList,
+            ChannelEdit
         },
         mounted(){
             this.loadChannels()
         },
+        computed:{
+            ...mapState(["user"])
+        },
         methods:{
             async loadChannels(){
-                const {data}=await getUserChannel()
+                let channels=[]
+                if(this.user){
+                    /*已登录，请求获取线上的用户频道列表数据*/
+                    const {data}=await getUserChannel()
+                    channels=data.data.channels
+                }else{
+                    /*没有登录，判断是否有本地存储的用户频道列表数据*/
+                    const localUserChannels=getItem('user-channels')
+                    /*如果有本地存储的频道列表则使用*/
+                    if(localUserChannels){
+                        channels=localUserChannels
+                    }else{
+                        /*用户没有登录，也没有本地存储的频道，那就请求获取默认推荐的频道列表*/
+                        const {data}=await getUserChannel()
+                        channels=data.data.channels
+                    }
+                }
               /*  console.log(data);*/
-                this.channels=data.data.channels
+               /* this.channels=data.data.channels*/
+                /*把处理好的数据放到模板中以供使用*/
+                this.channels=channels
+            },
+            onUpdateActive(index){
+                /*console.log(index);*/
+                this.active=index
+
             }
         }
     }
@@ -69,6 +113,30 @@
             width: 15px;
             height: 3px;
             background-color: #3296fa;
+        }
+    }
+    .wap-nav-wrap{
+        position: fixed;
+        right: 0;
+        width: 33px;
+        height: 43px;
+        background-color:#fff;
+        opacity: 0.9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .van-icon{
+            font-size: 24px;
+        }
+        &:before{
+            content: '';
+            width: 1px;
+            height: 43px;
+            background:url("./line.png") no-repeat;
+            background-size: contain;
+            position: absolute;
+            left: 0px;
+            top: 0px;
         }
     }
 }
