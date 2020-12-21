@@ -2,7 +2,7 @@
 <div class="home-container">
     <!--导航栏-->
     <van-nav-bar class="app-nav-bar">
-        <van-button slot="title" type="info" icon-prefix="toutiao" icon="sousuo" round class="search-btn">搜索</van-button>
+        <van-button slot="title" type="info" icon-prefix="toutiao" icon="sousuo" round class="search-btn" to="/search">搜索</van-button>
     </van-nav-bar>
     <!--文章频道列表-->
     <van-tabs v-model="active" class="channel-tabs">
@@ -40,7 +40,7 @@
             return {
                 active:0,//控制被激活的标签
                 channels:[],
-                isChannelEditShow:true
+                isChannelEditShow:false
             }
         },
         components:{
