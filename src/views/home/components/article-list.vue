@@ -7,6 +7,7 @@
                 :finished="finished"
                 finished-text="没有更多了"
                 @load="onLoad"
+
         >
             <article-item v-for="(article,index) in articles" :key="index" :article="article"></article-item>
            <!-- <van-cell v-for="(article,index) in articles" :key="index" :title="article.title" />-->
